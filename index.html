@@ -36,190 +36,153 @@ body {
       padding: 24px 16px 48px;
     }
 
-/* ---------- Header ---------- */
-    header { text-align: center; margin-bottom: 32px; }
+header { text-align: center; margin-bottom: 28px; }
 
 .logo {
-      font-size: 40px;
-      font-weight: 800;
-      letter-spacing: -1.5px;
+      font-size: 40px; font-weight: 800; letter-spacing: -1.5px;
       background: linear-gradient(90deg, var(--accent), var(--accent-2));
-      -webkit-background-clip: text;
-      background-clip: text;
+      -webkit-background-clip: text; background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+    .tagline { color: var(--text-dim); margin-top: 6px; font-size: 14px; letter-spacing: .3px; }
 
-.tagline {
-      color: var(--text-dim);
-      margin-top: 6px;
-      font-size: 14px;
-      letter-spacing: .3px;
+/* ---------- Toast ---------- */
+    #toast {
+      position: fixed; top: 18px; left: 50%; transform: translateX(-50%) translateY(-16px);
+      background: var(--panel-2); border: 1px solid var(--accent);
+      color: var(--text); padding: 10px 20px; border-radius: 10px;
+      font-size: 13.5px; opacity: 0; pointer-events: none;
+      transition: opacity .25s, transform .25s; z-index: 50;
+      box-shadow: 0 8px 30px rgba(0,0,0,.5);
     }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 /* ---------- Card ---------- */
     .card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 28px;
-      width: 100%;
-      max-width: 420px;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 16px; padding: 28px; width: 100%; max-width: 420px;
       box-shadow: 0 10px 40px rgba(0, 0, 0, .45);
     }
 
+/* ---------- Segmented selector ---------- */
+    .segmented {
+      display: flex; gap: 6px; padding: 5px;
+      background: var(--panel-2); border: 1px solid var(--border);
+      border-radius: 12px; margin-bottom: 22px;
+    }
+    .seg {
+      flex: 1; padding: 10px 0; border: 0; border-radius: 8px;
+      background: transparent; color: var(--text-dim);
+      font-size: 13.5px; font-weight: 600; cursor: pointer;
+      transition: background .2s, color .2s;
+    }
+    .seg.active { background: var(--accent); color: #fff; }
+    .seg:not(.active):hover { color: var(--text); }
+
 label {
-      display: block;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      color: var(--text-dim);
-      margin-bottom: 8px;
+      display: block; font-size: 12px; text-transform: uppercase;
+      letter-spacing: 1.2px; color: var(--text-dim); margin-bottom: 8px;
     }
 
 input#code {
-      width: 100%;
-      padding: 14px 16px;
-      font-size: 16px;
-      text-align: center;
-      letter-spacing: 1px;
-      background: var(--panel-2);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      outline: none;
+      width: 100%; padding: 14px 16px; font-size: 16px; text-align: center;
+      letter-spacing: 1px; background: var(--panel-2); color: var(--text);
+      border: 1px solid var(--border); border-radius: 10px; outline: none;
       transition: border-color .2s;
     }
     input#code:focus { border-color: var(--accent); }
     input#code::placeholder { color: #55607a; }
 
 .divider {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 22px 0;
-      color: var(--text-dim);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
+      display: flex; align-items: center; gap: 12px; margin: 22px 0;
+      color: var(--text-dim); font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px;
     }
-    .divider::before, .divider::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
+    .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--border); }
 
-/* ---------- Mode buttons ---------- */
-    .modes { display: flex; flex-direction: column; gap: 12px; }
+.modes { display: flex; flex-direction: column; gap: 12px; }
 
 .mode-btn {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      width: 100%;
-      padding: 16px 18px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: var(--panel-2);
-      color: var(--text);
-      cursor: pointer;
-      text-align: left;
+      display: flex; align-items: center; gap: 16px; width: 100%;
+      padding: 16px 18px; border-radius: 12px; border: 1px solid var(--border);
+      background: var(--panel-2); color: var(--text); cursor: pointer; text-align: left;
       transition: border-color .2s, background .2s, transform .1s;
     }
     .mode-btn:hover { border-color: var(--accent); background: #1e2433; }
     .mode-btn:active { transform: scale(.985); }
 
 .mode-btn .icon {
-      width: 42px; height: 42px;
-      flex-shrink: 0;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 42px; height: 42px; flex-shrink: 0; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
     }
     .mode-btn .icon svg { width: 22px; height: 22px; }
-
-.mode-btn.phone .icon { background: rgba(91, 124, 250, .15); }
-    .mode-btn.pc .icon   { background: rgba(61, 220, 132, .12); }
-
-.mode-btn strong { display: block; font-size: 16px; }
+    .mode-btn.phone .icon { background: rgba(91, 124, 250, .15); }
+    .mode-btn.pc   .icon { background: rgba(61, 220, 132, .12); }
+    .mode-btn strong { display: block; font-size: 16px; }
     .mode-btn span   { font-size: 12.5px; color: var(--text-dim); }
 
-/* ---------- Stage (after picking a mode) ---------- */
-    #stage {
-      width: 100%;
-      max-width: 860px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+/* ---------- Stage ---------- */
+    #stage { width: 100%; max-width: 860px; display: flex; flex-direction: column; align-items: center; }
 
 .video-wrap {
-      position: relative;
-      width: 100%;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      background: #000;
-      aspect-ratio: 16 / 9;
+      position: relative; width: 100%; border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--border); background: #000; aspect-ratio: 16 / 9;
     }
-    video {
-      width: 100%; height: 100%;
-      object-fit: contain;
-      display: block;
+    video { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+/* Hidden-camera overlay for the viewer */
+    #hiddenOverlay {
+      position: absolute; inset: 0; display: none;
+      align-items: center; justify-content: center; flex-direction: column; gap: 10px;
+      background: rgba(8, 10, 14, .92); z-index: 5; text-align: center; padding: 20px;
     }
+    #hiddenOverlay .lock { width: 34px; height: 34px; opacity: .85; }
+    #hiddenOverlay p { color: var(--text-dim); font-size: 15px; }
+    #hiddenOverlay strong { color: var(--text); font-size: 16px; }
 
 .status-bar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 14px;
-      padding: 12px 18px;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      font-size: 14px;
-      color: var(--text-dim);
-      max-width: 100%;
+      display: flex; align-items: center; gap: 10px; margin-top: 14px;
+      padding: 12px 18px; background: var(--panel); border: 1px solid var(--border);
+      border-radius: 12px; font-size: 14px; color: var(--text-dim); max-width: 100%;
     }
 
 .dot {
-      width: 9px; height: 9px;
-      border-radius: 50%;
-      background: var(--amber);
-      flex-shrink: 0;
-      animation: pulse 1.6s ease-in-out infinite;
+      width: 9px; height: 9px; border-radius: 50%; background: var(--amber);
+      flex-shrink: 0; animation: pulse 1.6s ease-in-out infinite;
     }
     .dot.ok    { background: var(--green); animation: none; }
     .dot.error { background: var(--red);   animation: none; }
 
-@keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50%      { opacity: .35; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+
+/* ---------- Control panel (sender) ---------- */
+    .panel {
+      display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+      margin-top: 14px; padding: 12px; background: var(--panel);
+      border: 1px solid var(--border); border-radius: 14px;
     }
+    .ctl {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 18px; border-radius: 10px; cursor: pointer;
+      border: 1px solid var(--border); background: var(--panel-2);
+      color: var(--text); font-size: 13.5px; font-weight: 600;
+      transition: border-color .2s, background .2s;
+    }
+    .ctl:hover { border-color: var(--accent); background: #1e2433; }
+    .ctl svg { width: 16px; height: 16px; }
+    .ctl.danger { border-color: rgba(255, 92, 108, .35); }
+    .ctl.danger:hover { border-color: var(--red); background: rgba(255, 92, 108, .08); }
 
 button#reset {
-      margin-top: 14px;
-      padding: 10px 22px;
-      background: none;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--text-dim);
-      font-size: 13px;
-      cursor: pointer;
+      margin-top: 14px; padding: 10px 22px; background: none;
+      border: 1px solid var(--border); border-radius: 10px;
+      color: var(--text-dim); font-size: 13px; cursor: pointer;
       transition: color .2s, border-color .2s;
     }
     button#reset:hover { color: var(--text); border-color: var(--accent); }
 
 .hidden { display: none !important; }
 
-/* ---------- Footer ---------- */
-    footer {
-      margin-top: auto;
-      padding-top: 40px;
-      color: #55607a;
-      font-size: 12px;
-    }
+footer { margin-top: auto; padding-top: 40px; color: #55607a; font-size: 12px; }
 
 @media (max-width: 480px) {
       .logo { font-size: 32px; }
@@ -228,14 +191,21 @@ button#reset {
   </style>
 </head>
 <body>
-  <header>
+  <div id="toast"></div>
+
+<header>
     <div class="logo">Lookable</div>
     <div class="tagline">Share your camera from one device, watch it on another.</div>
   </header>
 
-<!-- Choose mode -->
+<!-- Start page -->
   <div class="card" id="menu">
-    <label for="code">Room code</label>
+    <div class="segmented" role="tablist">
+      <button class="seg active" id="segShare">Share</button>
+      <button class="seg" id="segMulti">Multi-Share</button>
+    </div>
+
+<label for="code">Room code</label>
     <input id="code" placeholder="same code on both devices" autocomplete="off" spellcheck="false" maxlength="32">
 
 <div class="divider">Choose this device's role</div>
@@ -262,8 +232,8 @@ button#reset {
           </svg>
         </span>
         <span class="text">
-          <strong>PC</strong>
-          <span>Watch the phone's camera</span>
+          <strong>PC / Phone</strong>
+          <span>Watch the other device's camera</span>
         </span>
       </button>
     </div>
@@ -273,30 +243,76 @@ button#reset {
   <div id="stage" class="hidden">
     <div class="video-wrap">
       <video id="cam" autoplay playsinline muted></video>
+      <div id="hiddenOverlay">
+        <svg class="lock" viewBox="0 0 24 24" fill="none" stroke="#8b93a7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="11" width="16" height="10" rx="2"/>
+          <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+        </svg>
+        <strong>Camera hidden</strong>
+        <p>The sender has hidden their camera for now.</p>
+      </div>
     </div>
-    <div class="status-bar">
+
+<div class="status-bar">
       <span class="dot" id="dot"></span>
       <span id="status">Starting…</span>
     </div>
-    <button id="reset">Choose a different role</button>
+
+<!-- Sender control panel -->
+    <div class="panel hidden" id="controls">
+      <button class="ctl" id="flipBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12a9 9 0 1 1-3-6.7"/>
+          <path d="M21 3v5h-5"/>
+        </svg>
+        Flip camera
+      </button>
+      <button class="ctl danger" id="hideBtn">
+        <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94"/>
+          <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/>
+          <line x1="1" y1="1" x2="23" y2="23"/>
+        </svg>
+        <span id="hideLabel">Hide camera</span>
+      </button>
+    </div>
+
+<button id="reset">Choose a different role</button>
   </div>
 
 <footer>Lookable — peer-to-peer video. The feed travels directly between your devices.</footer>
 
 <script>
-    const menu    = document.getElementById('menu');
-    const stage   = document.getElementById('stage');
-    const cam     = document.getElementById('cam');
+    const menu = document.getElementById('menu');
+    const stage = document.getElementById('stage');
+    const cam = document.getElementById('cam');
     const statusEl = document.getElementById('status');
-    const dot     = document.getElementById('dot');
+    const dot = document.getElementById('dot');
+    const overlay = document.getElementById('hiddenOverlay');
+    const controls = document.getElementById('controls');
+    const hideBtn = document.getElementById('hideBtn');
+    const hideLabel = document.getElementById('hideLabel');
+    const toastEl = document.getElementById('toast');
 
 let stream = null;
     let peer = null;
     let activeCall = null;
+    let dataConn = null;   // control channel between the two devices
+    let facing = 'environment';
+    let isHidden = false;
+    let role = null;       // 'sender' | 'viewer'
 
-function setStatus(msg, state) {
+/* ---------- UI helpers ---------- */
+    function setStatus(msg, state) {
       statusEl.textContent = msg;
       dot.className = 'dot' + (state ? ' ' + state : '');
+    }
+
+function toast(msg) {
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => toastEl.classList.remove('show'), 2600);
     }
 
 function code() {
@@ -310,9 +326,16 @@ function showStage() {
 
 function cleanup() {
       if (activeCall) { activeCall.close(); activeCall = null; }
+      if (dataConn) { dataConn.close(); dataConn = null; }
       if (peer) { peer.destroy(); peer = null; }
       if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
       cam.srcObject = null;
+      overlay.style.display = 'none';
+      controls.classList.add('hidden');
+      isHidden = false;
+      hideLabel.textContent = 'Hide camera';
+      facing = 'environment';
+      role = null;
     }
 
 document.getElementById('reset').addEventListener('click', () => {
@@ -321,68 +344,141 @@ document.getElementById('reset').addEventListener('click', () => {
       menu.classList.remove('hidden');
     });
 
-async function getCamera() {
-      if (stream) return stream;
-      try {
-        stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } },
-          audio: false
-        });
-      } catch (err) {
-        throw new Error('Camera unavailable or blocked: ' + err.message);
-      }
-      return stream;
+/* ---------- Segmented selector ---------- */
+    document.getElementById('segMulti').addEventListener('click', () => {
+      toast('Multi-Share is in development. Stay tuned.');
+    });
+    document.getElementById('segShare').addEventListener('click', () => {
+      document.getElementById('segShare').classList.add('active');
+      document.getElementById('segMulti').classList.remove('active');
+      toast('Share mode — one device watches at a time.');
+    });
+
+/* ---------- Camera ---------- */
+    async function openCamera(which) {
+      const s = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: which, width: { ideal: 1280 }, height: { ideal: 720 } },
+        audio: false
+      });
+      return s;
     }
 
-// PC side sends a minimal blank stream so the WebRTC call can be placed.
+function sendToViewer(payload) {
+      if (dataConn && dataConn.open) { try { dataConn.send(payload); } catch (e) {} }
+    }
+
+function setVideoTrackEnabled(enabled) {
+      if (stream) stream.getVideoTracks().forEach(t => { t.enabled = enabled; });
+    }
+
+/* ---------- SENDER MODE ---------- */
+    document.getElementById('phoneBtn').addEventListener('click', async () => {
+      showStage();
+      role = 'sender';
+      try {
+        stream = await openCamera(facing);
+        cam.srcObject = stream;
+        setStatus('Camera live. Waiting for a viewer to join…');
+
+peer = new Peer('lookable-' + code());
+        peer.on('open', () => setStatus('Ready. Keep this tab open until the other device connects.'));
+        peer.on('error', e => {
+          if (e.type === 'unavailable-id') setStatus('That room code is already in use. Pick another one.', 'error');
+          else setStatus('Connection error: ' + e.type, 'error');
+        });
+
+// Control channel so the viewer can be notified when we hide the camera
+        peer.on('connection', conn => {
+          dataConn = conn;
+          conn.on('open', () => sendToViewer({ type: 'state', hidden: isHidden }));
+          conn.on('close', () => {
+            dataConn = null;
+            setStatus('Viewer disconnected. Waiting for a new viewer…');
+          });
+        });
+
+peer.on('call', call => {
+          activeCall = call;
+          call.answer(stream);
+          controls.classList.remove('hidden');
+          setStatus('Connected. The other device is watching.', 'ok');
+        });
+      } catch (err) {
+        setStatus('Camera unavailable or blocked: ' + err.message, 'error');
+      }
+    });
+
+/* Flip camera: open the other camera and swap the live track
+       without dropping the connection. */
+    document.getElementById('flipBtn').addEventListener('click', async () => {
+      const next = facing === 'environment' ? 'user' : 'environment';
+      try {
+        const newStream = await openCamera(next);
+        const newTrack = newStream.getVideoTracks()[0];
+
+if (activeCall && activeCall.peerConnection) {
+          const sender = activeCall.peerConnection.getSenders()
+            .find(s => s.track && s.track.kind === 'video');
+          if (sender) sender.replaceTrack(newTrack);
+        }
+
+if (stream) stream.getTracks().forEach(t => t.stop());
+        stream = newStream;
+        facing = next;
+        cam.srcObject = stream;
+        if (isHidden) setVideoTrackEnabled(false);
+        setStatus('Switched camera.', 'ok');
+      } catch (err) {
+        setStatus('Could not switch camera: ' + err.message, 'error');
+      }
+    });
+
+/* Hide / show camera */
+    hideBtn.addEventListener('click', () => {
+      isHidden = !isHidden;
+      setVideoTrackEnabled(!isHidden);
+      hideLabel.textContent = isHidden ? 'Show camera' : 'Hide camera';
+      sendToViewer({ type: 'state', hidden: isHidden });
+      setStatus(isHidden ? 'Camera hidden from the viewer.' : 'Camera visible to the viewer.', 'ok');
+    });
+
+/* ---------- VIEWER MODE ---------- */
+    // Minimal blank stream — WebRTC requires the caller to offer something.
     function blankStream() {
       const c = document.createElement('canvas');
       c.width = 160; c.height = 120;
       return c.captureStream(1);
     }
 
-// ---------- PHONE MODE ----------
-    document.getElementById('phoneBtn').addEventListener('click', async () => {
+document.getElementById('pcBtn').addEventListener('click', () => {
       showStage();
-      try {
-        await getCamera();
-        cam.srcObject = stream;
-        setStatus('Camera live. Waiting for the PC to join…');
-
-peer = new Peer('lookable-' + code());
-        peer.on('open', () => setStatus('Ready. Keep this tab open until the PC connects.'));
-        peer.on('error', e => {
-          if (e.type === 'unavailable-id') setStatus('That room code is already in use. Pick another one.', 'error');
-          else setStatus('Connection error: ' + e.type, 'error');
-        });
-        peer.on('call', call => {
-          activeCall = call;
-          call.answer(stream);
-          setStatus('Connected. The PC is watching.', 'ok');
-        });
-      } catch (err) {
-        setStatus(err.message, 'error');
-      }
-    });
-
-// ---------- PC MODE ----------
-    document.getElementById('pcBtn').addEventListener('click', () => {
-      showStage();
-      setStatus('Connecting to the phone…');
+      role = 'viewer';
+      setStatus('Connecting to the sender…');
 
 peer = new Peer();
       peer.on('error', e => {
-        if (e.type === 'peer-unavailable') setStatus('Phone not found. Is the phone side open first?', 'error');
+        if (e.type === 'peer-unavailable') setStatus('Sender not found. Is the sender side open first?', 'error');
         else setStatus('Connection error: ' + e.type, 'error');
       });
 
 peer.on('open', () => {
-        const call = peer.call('lookable-' + code(), blankStream());
+        // Control channel: listen for hide/show notifications
+        dataConn = peer.connect('lookable-' + code(), { reliable: true });
+        dataConn.on('data', d => {
+          if (d && d.type === 'state') {
+            overlay.style.display = d.hidden ? 'flex' : 'none';
+            if (d.hidden) setStatus('The sender hid their camera.', null);
+            else setStatus('Watching the sender camera.', 'ok');
+          }
+        });
+
+const call = peer.call('lookable-' + code(), blankStream());
         activeCall = call;
         call.on('stream', remote => {
           cam.srcObject = remote;
-          setStatus('Watching the phone camera.', 'ok');
+          if (!isHidden) setStatus('Watching the sender camera.', 'ok');
         });
+        call.on('close', () => setStatus('The sender ended the connection.', 'error'));
       });
     });
   </script>

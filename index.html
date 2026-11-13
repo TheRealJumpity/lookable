@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lookable</title>
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+  <style>
+    :root {
+      --bg: #0b0d12;
+      --panel: #141822;
+      --panel-2: #1a1f2c;
+      --border: #262d3d;
+      --text: #e8ebf2;
+      --text-dim: #8b93a7;
+      --accent: #5b7cfa;
+      --accent-2: #8a5bfa;
+      --green: #3ddc84;
+      --red: #ff5c6c;
+      --amber: #ffb454;
+    }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+      background:
+        radial-gradient(800px 400px at 20% -10%, rgba(91, 124, 250, .14), transparent 60%),
+        radial-gradient(700px 380px at 90% 0%, rgba(138, 91, 250, .10), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px 48px;
+    }
+
+/* ---------- Header ---------- */
+    header { text-align: center; margin-bottom: 32px; }
+
+.logo {
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+.tagline {
+      color: var(--text-dim);
+      margin-top: 6px;
+      font-size: 14px;
+      letter-spacing: .3px;
+    }
+
+/* ---------- Card ---------- */
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, .45);
+    }
+
+label {
+      display: block;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+    }
+
+input#code {
+      width: 100%;
+      padding: 14px 16px;
+      font-size: 16px;
+      text-align: center;
+      letter-spacing: 1px;
+      background: var(--panel-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      outline: none;
+      transition: border-color .2s;
+    }
+    input#code:focus { border-color: var(--accent); }
+    input#code::placeholder { color: #55607a; }
+
+.divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 22px 0;
+      color: var(--text-dim);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+    .divider::before, .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+/* ---------- Mode buttons ---------- */
+    .modes { display: flex; flex-direction: column; gap: 12px; }
+
+.mode-btn {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+      padding: 16px 18px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      cursor: pointer;
+      text-align: left;
+      transition: border-color .2s, background .2s, transform .1s;
+    }
+    .mode-btn:hover { border-color: var(--accent); background: #1e2433; }
+    .mode-btn:active { transform: scale(.985); }
+
+.mode-btn .icon {
+      width: 42px; height: 42px;
+      flex-shrink: 0;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mode-btn .icon svg { width: 22px; height: 22px; }
+
+.mode-btn.phone .icon { background: rgba(91, 124, 250, .15); }
+    .mode-btn.pc .icon   { background: rgba(61, 220, 132, .12); }
+
+.mode-btn strong { display: block; font-size: 16px; }
+    .mode-btn span   { font-size: 12.5px; color: var(--text-dim); }
+
+/* ---------- Stage (after picking a mode) ---------- */
+    #stage {
+      width: 100%;
+      max-width: 860px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+.video-wrap {
+      position: relative;
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #000;
+      aspect-ratio: 16 / 9;
+    }
+    video {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+.status-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 14px;
+      padding: 12px 18px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 14px;
+      color: var(--text-dim);
+      max-width: 100%;
+    }
+
+.dot {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--amber);
+      flex-shrink: 0;
+      animation: pulse 1.6s ease-in-out infinite;
+    }
+    .dot.ok    { background: var(--green); animation: none; }
+    .dot.error { background: var(--red);   animation: none; }
+
+@keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: .35; }
+    }
+
+button#reset {
+      margin-top: 14px;
+      padding: 10px 22px;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text-dim);
+      font-size: 13px;
+      cursor: pointer;
+      transition: color .2s, border-color .2s;
+    }
+    button#reset:hover { color: var(--text); border-color: var(--accent); }
+
+.hidden { display: none !important; }
+
+/* ---------- Footer ---------- */
+    footer {
+      margin-top: auto;
+      padding-top: 40px;
+      color: #55607a;
+      font-size: 12px;
+    }
+
+@media (max-width: 480px) {
+      .logo { font-size: 32px; }
+      .card { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Lookable</div>
+    <div class="tagline">Share your camera from one device, watch it on another.</div>
+  </header>
+
+<!-- Choose mode -->
+  <div class="card" id="menu">
+    <label for="code">Room code</label>
+    <input id="code" placeholder="same code on both devices" autocomplete="off" spellcheck="false" maxlength="32">
+
+<div class="divider">Choose this device's role</div>
+
+<div class="modes">
+      <button class="mode-btn phone" id="phoneBtn">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#5b7cfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="2"/>
+            <circle cx="12" cy="18" r="1" fill="#5b7cfa" stroke="none"/>
+          </svg>
+        </span>
+        <span class="text">
+          <strong>Phone</strong>
+          <span>Share this device's camera</span>
+        </span>
+      </button>
+
+<button class="mode-btn pc" id="pcBtn">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#3ddc84" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="13" rx="2"/>
+            <path d="M8 21h8M12 17v4"/>
+          </svg>
+        </span>
+        <span class="text">
+          <strong>PC</strong>
+          <span>Watch the phone's camera</span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+<!-- Live stage -->
+  <div id="stage" class="hidden">
+    <div class="video-wrap">
+      <video id="cam" autoplay playsinline muted></video>
+    </div>
+    <div class="status-bar">
+      <span class="dot" id="dot"></span>
+      <span id="status">Starting…</span>
+    </div>
+    <button id="reset">Choose a different role</button>
+  </div>
+
+<footer>Lookable — peer-to-peer video. The feed travels directly between your devices.</footer>
+
+<script>
+    const menu    = document.getElementById('menu');
+    const stage   = document.getElementById('stage');
+    const cam     = document.getElementById('cam');
+    const statusEl = document.getElementById('status');
+    const dot     = document.getElementById('dot');
+
+let stream = null;
+    let peer = null;
+    let activeCall = null;
+
+function setStatus(msg, state) {
+      statusEl.textContent = msg;
+      dot.className = 'dot' + (state ? ' ' + state : '');
+    }
+
+function code() {
+      return document.getElementById('code').value.trim().replace(/\s+/g, '-') || 'lookable';
+    }
+
+function showStage() {
+      menu.classList.add('hidden');
+      stage.classList.remove('hidden');
+    }
+
+function cleanup() {
+      if (activeCall) { activeCall.close(); activeCall = null; }
+      if (peer) { peer.destroy(); peer = null; }
+      if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+      cam.srcObject = null;
+    }
+
+document.getElementById('reset').addEventListener('click', () => {
+      cleanup();
+      stage.classList.add('hidden');
+      menu.classList.remove('hidden');
+    });
+
+async function getCamera() {
+      if (stream) return stream;
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } },
+          audio: false
+        });
+      } catch (err) {
+        throw new Error('Camera unavailable or blocked: ' + err.message);
+      }
+      return stream;
+    }
+
+// PC side sends a minimal blank stream so the WebRTC call can be placed.
+    function blankStream() {
+      const c = document.createElement('canvas');
+      c.width = 160; c.height = 120;
+      return c.captureStream(1);
+    }
+
+// ---------- PHONE MODE ----------
+    document.getElementById('phoneBtn').addEventListener('click', async () => {
+      showStage();
+      try {
+        await getCamera();
+        cam.srcObject = stream;
+        setStatus('Camera live. Waiting for the PC to join…');
+
+peer = new Peer('lookable-' + code());
+        peer.on('open', () => setStatus('Ready. Keep this tab open until the PC connects.'));
+        peer.on('error', e => {
+          if (e.type === 'unavailable-id') setStatus('That room code is already in use. Pick another one.', 'error');
+          else setStatus('Connection error: ' + e.type, 'error');
+        });
+        peer.on('call', call => {
+          activeCall = call;
+          call.answer(stream);
+          setStatus('Connected. The PC is watching.', 'ok');
+        });
+      } catch (err) {
+        setStatus(err.message, 'error');
+      }
+    });
+
+// ---------- PC MODE ----------
+    document.getElementById('pcBtn').addEventListener('click', () => {
+      showStage();
+      setStatus('Connecting to the phone…');
+
+peer = new Peer();
+      peer.on('error', e => {
+        if (e.type === 'peer-unavailable') setStatus('Phone not found. Is the phone side open first?', 'error');
+        else setStatus('Connection error: ' + e.type, 'error');
+      });
+
+peer.on('open', () => {
+        const call = peer.call('lookable-' + code(), blankStream());
+        activeCall = call;
+        call.on('stream', remote => {
+          cam.srcObject = remote;
+          setStatus('Watching the phone camera.', 'ok');
+        });
+      });
+    });
+  </script>
+</body>
+</html>
